@@ -1,7 +1,7 @@
 This document describes Moonraker-timelapse configuration.  As this file
 references configuration for both Klipper (`printer.cfg`) and Moonraker
 (`moonraker.conf`), each example contains a commment indicating which
-configuration file is being refrenenced. 
+configuration file is being refrenenced.
 
 ### Define the Gcode Macro
 Include the macro file to your printer.cfg
@@ -18,13 +18,19 @@ add the ``TIMELAPSE_TAKE_FRAME`` macro to your slicer so that it is added to
 the Gcode before or after a layer change. If your slicer does not support adding
 Gcode to a layerchange you are limited to the timebased "hyperlapse" mode.
 
+### OrcaSlicer
+Printer Profile -> Machine gcode -> Before layer change G-code ->
+``TIMELAPSE_TAKE_FRAME`` one line above `G92 E0`.
+
+![OrcaSlicer Configuration](assets/img/timelapse-orca-config.png)
+
 ### Prusa Slicer / Super Slicer
 Printer Settings -> Custom G-code -> Before layer change Gcode -> ``TIMELAPSE_TAKE_FRAME``
 
 ![PrusaSlicer Configuration](assets/img/timelapse-PS-config.png)
 
 ### Ultimaker Cura
-Extensions -> Post Processing -> Modify G-Code ->   
+Extensions -> Post Processing -> Modify G-Code ->
 Add a script -> Insert at layer change -> G-code to insert = ``TIMELAPSE_TAKE_FRAME``
 
 ![Cura Configuration](assets/img/timelapse-cura-config.png)
@@ -43,7 +49,7 @@ Advanced Settings -> Gcode -> Layer Change Gcode -> ``TIMELAPSE_TAKE_FRAME``
 [timelapse]
 ##   Following basic configuration is default to most images and don't need
 ##   to be changed in most scenarios. Only uncomment and change it if your
-##   Image differ from standart installations. In most common scenarios 
+##   Image differ from standart installations. In most common scenarios
 ##   a User only need [timelapse] in their configuration.
 #output_path: ~/timelapse/
 ##   Directory where the generated video will be saved
@@ -69,9 +75,9 @@ skip timelapse for a print.
 #### mode
 At the moment there are two modes available 'layermacro' and 'hyperlapse'
 
-##### layermacro 
+##### layermacro
 This mode uses a macro to trigger frame grabbing, but needs the slicer to be setup
-to add such on layerchange (refer to the 'Slicer setup' below) 
+to add such on layerchange (refer to the 'Slicer setup' below)
 
 ##### hyperlapse
 This mode takes a frame every x seconds configured by the hyperlapse_cycle setting
@@ -82,7 +88,7 @@ Defines the time interval in which a frame gets taken in the hyperlapse mode.
 #### autorender
 'true' enables or 'false' disables automatic trigger of the render process
 at the end of the print. Alternatively you can use the 'TIMELAPSE_RENDER' in
-your end gcode or the Render http Endpoint (which may be integrated into your 
+your end gcode or the Render http Endpoint (which may be integrated into your
 frontend) to trigger the render process.
 
 #### saveFrames
@@ -95,7 +101,7 @@ use or render.
 This setting let you choose which camera should be used to take frames from.
 It depends on the 'webcam' namespace in the moonraker DB and uses the
 'snapshoturl', 'flipX' and 'flipY' associated whith selected camera. Alternatively you can configure
-'snapshoturl', 'flip_x' and 'flip_y' in the moonraker.conf if your frontend doesn't support the webcams 
+'snapshoturl', 'flip_x' and 'flip_y' in the moonraker.conf if your frontend doesn't support the webcams
 namespace of moonraker DB.
 
 #### gcode_verbose
@@ -119,7 +125,7 @@ Absolute Y coordinates of the custom parkposition (Unit mm)
 
 ##### park_custom_pos_dz
 Relative Z coordinates of the custom parkposition (Unit mm)
-        
+
 #### park_travel_speed
 Speed of the printhead movement while parking (Unit mm/s)
 
@@ -148,7 +154,7 @@ delay frame capture (Unit seconds, default 0.05)
 ### Render specific
 
 #### time_format_code
-This defines how the rendered video should be named. 
+This defines how the rendered video should be named.
 It uses the python datetime format. Default is "%Y%m%d_%H%M".
 More info about the datetime format can be found here https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes
 
@@ -171,7 +177,7 @@ Minimum fps for variable_fps (Unit frames per second).
 Maximum fps for variable_fps (Unit frames per second).
 
 #### constant_rate_factor
-This configure quality vs filesize of the rendered Video. The range of the CRF 
+This configure quality vs filesize of the rendered Video. The range of the CRF
 scale is 0–51, where 0 is lossless, 23 is the default and 51 is worst quality
 possible. A lower value generally leads to higher quality and a subjectively
 sane range is 17–28. Consider 17 or 18 to be visually lossless.
@@ -180,20 +186,20 @@ more info: https://trac.ffmpeg.org/wiki/Encode/H.264
 #### pixelformat
 Defines the pixelformat of the output video. Some older h264 devices like
 mobiles and others need 'yuv420p' which is default the timelapse component.
-To get more info which pixelformats are available run 'ffmpeg -pix_fmts' in 
+To get more info which pixelformats are available run 'ffmpeg -pix_fmts' in
 your system console or refer to the ffmpeg documentation: https://ffmpeg.org/ffmpeg.html
 
 #### duplicatelastframe
 Duplicates the last frame to the end of the output video.
 
 #### extraoutputparams
-Defines extra output parameters to FFMPEG 
-further info: https://ffmpeg.org/ffmpeg.html 
+Defines extra output parameters to FFMPEG
+further info: https://ffmpeg.org/ffmpeg.html
 Note: Specifing anything here will maybe disable other features! (ffmpeg limitation)
 
 #### previewImage
 'true' enables or 'false' disables coping the last frame as a preview image to
-the output directory. This is used so that the frontend can show a preview of 
+the output directory. This is used so that the frontend can show a preview of
 the timelapse without needing to open the video.
 
 ## Fallback Configfile based moonraker.conf
@@ -229,7 +235,7 @@ does.
 #output_framerate: 30
 #pixelformat: yuv420p
 #time_format_code: %Y%m%d_%H%M
-#extraoutputparams: 
+#extraoutputparams:
 #variable_fps: False
 #targetlength: 10
 #variable_fps_min: 5
@@ -247,9 +253,9 @@ does.
 You may want to change your Timelapse to a higher resolution, you
 need to change the Webcamstream to a higher resolution since the
 Component will grab the frame of the Streamer.
-To do so, please refer to the documentation of your Image:  
+To do so, please refer to the documentation of your Image:
 - MainsailOS: https://crowsnest.mainsail.xyz/configuration/cam-section#resolution
-- FluiddPI: https://docs.fluidd.xyz/features/cameras 
+- FluiddPI: https://docs.fluidd.xyz/features/cameras
 
 ## Reduce the check interval inside the klipper macros
 The default is that the macros check every 0.5 sec if the print can continue.
@@ -259,12 +265,12 @@ Caution, smaller numbers increase the risk of a klipper "timer to close"
 
 To change it simple, add the following GCODE to your print start:
 ```ini
-SET_GCODE_VARIABLE MACRO=TIMELAPSE_TAKE_FRAME VARIABLE=check_time VALUE=0.5 
-``` 
+SET_GCODE_VARIABLE MACRO=TIMELAPSE_TAKE_FRAME VARIABLE=check_time VALUE=0.5
+```
 
 To get that change at every klipper start:
 ```ini
 [delayed_gcode _INIT_TIMELAPSE_CHECK_TIME]
 initial_duration: 1
-gcode: SET_GCODE_VARIABLE MACRO=TIMELAPSE_TAKE_FRAME VARIABLE=check_time VALUE=0.5 
-``` 
+gcode: SET_GCODE_VARIABLE MACRO=TIMELAPSE_TAKE_FRAME VARIABLE=check_time VALUE=0.5
+```
