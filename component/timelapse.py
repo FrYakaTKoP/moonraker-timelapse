@@ -470,8 +470,9 @@ class Timelapse:
 
         self.framecount += 1
         framefile = "frame" + str(self.framecount).zfill(6) + ".jpg"
-        cmd = "wget " + options + self.config['snapshoturl'] \
-              + " -O " + self.temp_dir + framefile
+        cmd = ("wget " + options \
+              + " '" + self.config['snapshoturl'] + "'" \
+              + " -O '" + self.temp_dir + framefile + "'")
         self.lastframefile = framefile
         logging.debug(f"cmd: {cmd}")
 
